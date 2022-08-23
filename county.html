@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST Countries data fetching</title>
+</head>
+<body>
+    <h1>REST COUNTRIES</h1>
+    <script>
+        const abc = new XMLHttpRequest();
+
+abc.open("GET", "https://restcountries.com/v3.1/all");//To address 
+abc.send();
+
+ abc.responseType = "json";//data format
+
+ abc.onload = function displayResult()
+ {
+    const countries = abc.response;//data
+
+    console.log("TOTAL COUNTRIES:", countries.length); 
+    console.log(countries);
+ 
+    
+ 
+//1.Get purticular data from all countries using forin:-
+
+for ( var i in countries){
+// console.log(i, countries[i].name.common, countries[i].region, countries[i].subregion, countries[i].population, countries[i].flag);
+//method1
+
+//  console.log(`${[i]}, ${countries[i].name.common}, ${countries[i].region}, ${countries[i].subregion}, ${countries[i].population}, ${countries[i].flag}`);
+//method2
+
+console.log(`${[i]},  COUNTRY: ${countries[i].name.common},  REGION: ${countries[i].region},  SUBREGION: ${countries[i].subregion},  POPULATION: ${countries[i].population},  FLAG: ${countries[i].flag}`);
+//method3
+}
+
+
+//2.Get all the countries with a population of less than 2 lakhs using Filter function:-
+
+let result = countries.filter(function (data) {
+    return data.population < 200000;
+    })
+console.log(result);
+
+
+//3.Get Asian continents region by filter fun:- 
+
+let result2 = countries.filter((data) => {
+    return data.region == "Asia";
+ });
+console.log(result2);
+
+
+//4.Print the total population of countries by reduce fun:-
+
+let total = [];
+for (var i in countries){
+   var allpp = countries[i].population;
+      total.push(allpp);
+}
+
+var result3 = total.reduce((accu, curr) => {
+       return accu + curr;
+})    
+
+console.log(result3);    
+
+
+//5. Print the countries data by forEach fun:-
+
+var detail = countries.forEach(function (data){
+    console.log(data.name.common, data.capital, data.flags.svg);
+
+})
+
+
+//6.Print the country which uses US Dollar as currency:
+  
+  var detail = countries.forEach( (data) => {
+    let allCurrency = data.currencies !== undefined;
+    if(allCurrency)
+    {
+    let usdCurrency = data.currencies.USD !== undefined;
+     if(usdCurrency)
+     {
+    console.log(`USD using Countries: ${data.name.common}`);
+   }}
+})
+
+ }
+    </script>
+    
+</body>
+</html>
